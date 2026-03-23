@@ -1,0 +1,368 @@
+{
+  "benchmarks": {
+    "average_preparation_time_per_repair": 3,
+    "average_paint_time_per_repair": 2.5,
+    "average_booth_cycle_time_per_repair": 2,
+    "average_labour_time_per_repair": 5.5,
+    "working_days_per_year": 240,
+    "hours_per_day": 8,
+    "labour_efficiency_factor": 0.85,
+    "labour_available_hours": 1632,
+    "booth_available_hours": 1920,
+    "fte_hours_per_year": 1800,
+    "current_cycle_time_per_repair": 7.5,
+    "labour_cost_per_hour": 45,
+    "labour_fraction": 0.733
+  },
+  "thresholds": {
+    "utilisation_underutilised": 0.70,
+    "utilisation_overloaded": 0.90,
+    "savings_type_threshold": 0.90
+  },
+  "modes": {
+    "A_required_fields": [
+      "repairs_per_year",
+      "preparation_workers",
+      "spray_painters",
+      "amount_spraybooths"
+    ],
+    "B_required_fields": [
+      "company_product_usage_per_repair",
+      "company_product_price_per_unit",
+      "improvement_factor",
+      "investment_cost"
+    ]
+  },
+  "emm_process_data": {
+    "source": "Formules_Consumption_Sheet_English_16032026",
+    "base_repairs_per_year": 1500,
+    "total_non_paint_cost_per_repair": 21.85,
+    "total_process_minutes_per_repair": 280.17,
+    "average_hours_per_job_emm": 4.67,
+    "labour_cost_per_hour_source": 13.81,
+    "note": "Source sheet used Spanish market labour cost (€13.81/h). Override with regional rate for correct financial calculations.",
+    "processes": {
+      "Spraybooth Maintenance": {
+        "minutes_per_repair": 2.17,
+        "non_paint_cost_per_repair": 0.877,
+        "labour_cost_per_repair": 0.499,
+        "pct_of_total_time": 0.0077,
+        "pct_of_total_cost": 0.0401
+      },
+      "Masking": {
+        "minutes_per_repair": 40,
+        "non_paint_cost_per_repair": 6.396,
+        "labour_cost_per_repair": 9.209,
+        "pct_of_total_time": 0.1427,
+        "pct_of_total_cost": 0.2927
+      },
+      "Sanding & Surface preparation": {
+        "minutes_per_repair": 166,
+        "non_paint_cost_per_repair": 8.694,
+        "labour_cost_per_repair": 38.219,
+        "pct_of_total_time": 0.5924,
+        "pct_of_total_cost": 0.3978
+      },
+      "Paint Preparation": {
+        "minutes_per_repair": 45,
+        "non_paint_cost_per_repair": 3.900,
+        "labour_cost_per_repair": 10.361,
+        "pct_of_total_time": 0.1606,
+        "pct_of_total_cost": 0.1785
+      },
+      "Personal Protection": {
+        "minutes_per_repair": 7,
+        "non_paint_cost_per_repair": 1.375,
+        "labour_cost_per_repair": 1.612,
+        "pct_of_total_time": 0.025,
+        "pct_of_total_cost": 0.0629
+      },
+      "Polishing": {
+        "minutes_per_repair": 20,
+        "non_paint_cost_per_repair": 0.610,
+        "labour_cost_per_repair": 4.605,
+        "pct_of_total_time": 0.0714,
+        "pct_of_total_cost": 0.0279
+      }
+    }
+  },
+  "products": [
+    {
+      "id": "PROD001",
+      "stage": "Spraybooth Maintenance",
+      "name": "Stick&Go 676010",
+      "sku": "676010",
+      "brand": "Colad",
+      "price_eur": 56.0,
+      "qty_per_year_base1500": 12.0,
+      "cost_per_repair_eur": 0.448,
+      "pct_of_total": 0.020501,
+      "active": true
+    },
+    {
+      "id": "PROD002",
+      "stage": "Spraybooth Maintenance",
+      "name": "Anti-dust Colad 814x",
+      "sku": "814x",
+      "brand": "Colad",
+      "price_eur": 80.0,
+      "qty_per_year_base1500": 56.0,
+      "cost_per_repair_eur": 0.1493,
+      "pct_of_total": 0.006834,
+      "active": true
+    },
+    {
+      "id": "PROD003",
+      "stage": "Spraybooth Maintenance",
+      "name": "Dust-control Colad 8200",
+      "sku": "8200",
+      "brand": "Colad",
+      "price_eur": 35.0,
+      "qty_per_year_base1500": 12.0,
+      "cost_per_repair_eur": 0.28,
+      "pct_of_total": 0.012813,
+      "active": true
+    },
+    {
+      "id": "PROD004",
+      "stage": "Spraybooth Maintenance",
+      "name": "High pressure hose Colad 9111",
+      "sku": "9111",
+      "brand": "Colad",
+      "price_eur": 278.0,
+      "qty_per_year_base1500": 0.0,
+      "cost_per_repair_eur": 0.0,
+      "pct_of_total": 0.0,
+      "active": false,
+      "note": "Currently 0 consumption in base sheet — confirm if in use"
+    },
+    {
+      "id": "PROD005",
+      "stage": "Masking",
+      "name": "Aqua Dynamic Masking Tape 130°C Colad 9004xx",
+      "sku": "9004xx",
+      "brand": "Colad",
+      "price_eur": 1.794,
+      "qty_per_year_base1500": 2250.0,
+      "cost_per_repair_eur": 2.691,
+      "pct_of_total": 0.123142,
+      "active": true
+    },
+    {
+      "id": "PROD006",
+      "stage": "Masking",
+      "name": "Stegoband 906013",
+      "sku": "906013",
+      "brand": "Colad",
+      "price_eur": 12.0,
+      "qty_per_year_base1500": 45.0,
+      "cost_per_repair_eur": 0.36,
+      "pct_of_total": 0.016474,
+      "active": true
+    },
+    {
+      "id": "PROD007",
+      "stage": "Masking",
+      "name": "Foam Masking Tape 908013",
+      "sku": "908013",
+      "brand": "Colad",
+      "price_eur": 14.9,
+      "qty_per_year_base1500": 60.0,
+      "cost_per_repair_eur": 0.596,
+      "pct_of_total": 0.027273,
+      "active": true
+    },
+    {
+      "id": "PROD008",
+      "stage": "Masking",
+      "name": "Masking Paper 37cm x 450 mts",
+      "sku": "—",
+      "brand": "Colad",
+      "price_eur": 14.9,
+      "qty_per_year_base1500": 13.33,
+      "cost_per_repair_eur": 0.1324,
+      "pct_of_total": 0.006061,
+      "active": true
+    },
+    {
+      "id": "PROD009",
+      "stage": "Masking",
+      "name": "Masking Film ref. 6340300",
+      "sku": "6340300",
+      "brand": "Colad",
+      "price_eur": 51.0,
+      "qty_per_year_base1500": 25.0,
+      "cost_per_repair_eur": 0.85,
+      "pct_of_total": 0.038897,
+      "active": true
+    },
+    {
+      "id": "PROD010",
+      "stage": "Masking",
+      "name": "Masking Film 6375",
+      "sku": "6375",
+      "brand": "Colad",
+      "price_eur": 53.0,
+      "qty_per_year_base1500": 50.0,
+      "cost_per_repair_eur": 1.7667,
+      "pct_of_total": 0.080844,
+      "active": true
+    },
+    {
+      "id": "PROD011",
+      "stage": "Sanding & Surface preparation",
+      "name": "Velcro Discs Colad 150mm 15 holes",
+      "sku": "368xx",
+      "brand": "Colad",
+      "price_eur": 0.288,
+      "qty_per_year_base1500": 27000.0,
+      "cost_per_repair_eur": 5.184,
+      "pct_of_total": 0.237224,
+      "active": true
+    },
+    {
+      "id": "PROD012",
+      "stage": "Sanding & Surface preparation",
+      "name": "Sanding sponges & fibre",
+      "sku": "—",
+      "brand": "Colad",
+      "price_eur": 0.61,
+      "qty_per_year_base1500": 6000.0,
+      "cost_per_repair_eur": 2.44,
+      "pct_of_total": 0.111656,
+      "active": true
+    },
+    {
+      "id": "PROD013",
+      "stage": "Sanding & Surface preparation",
+      "name": "Non Woven Degreasing Wipes",
+      "sku": "B12686589",
+      "brand": "Colad",
+      "price_eur": 50.0,
+      "qty_per_year_base1500": 1500.0,
+      "cost_per_repair_eur": 0.25,
+      "pct_of_total": 0.01144,
+      "active": true
+    },
+    {
+      "id": "PROD014",
+      "stage": "Sanding & Surface preparation",
+      "name": "Tack Cloth Waterbased",
+      "sku": "000805",
+      "brand": "Colad",
+      "price_eur": 0.82,
+      "qty_per_year_base1500": 1500.0,
+      "cost_per_repair_eur": 0.82,
+      "pct_of_total": 0.037524,
+      "active": true
+    },
+    {
+      "id": "PROD015",
+      "stage": "Paint Preparation",
+      "name": "Mixing Cups 1400ml",
+      "sku": "9400300",
+      "brand": "Colad",
+      "price_eur": 99.0,
+      "qty_per_year_base1500": 1500.0,
+      "cost_per_repair_eur": 0.33,
+      "pct_of_total": 0.015101,
+      "active": true
+    },
+    {
+      "id": "PROD016",
+      "stage": "Paint Preparation",
+      "name": "Snaplid & Turbomix Paintsaver",
+      "sku": "—",
+      "brand": "Colad",
+      "price_eur": 59.5,
+      "qty_per_year_base1500": 4500.0,
+      "cost_per_repair_eur": 3.57,
+      "pct_of_total": 0.163366,
+      "active": true
+    },
+    {
+      "id": "PROD017",
+      "stage": "Personal Protection",
+      "name": "Overall BodyGuard",
+      "sku": "5200xx",
+      "brand": "Colad",
+      "price_eur": 33.0,
+      "qty_per_year_base1500": 8.0,
+      "cost_per_repair_eur": 0.176,
+      "pct_of_total": 0.008054,
+      "active": true
+    },
+    {
+      "id": "PROD018",
+      "stage": "Personal Protection",
+      "name": "Fine dust mask P2 with valve",
+      "sku": "5420",
+      "brand": "Finixa",
+      "price_eur": 1.9,
+      "qty_per_year_base1500": 450.0,
+      "cost_per_repair_eur": 0.57,
+      "pct_of_total": 0.026084,
+      "active": true
+    },
+    {
+      "id": "PROD019",
+      "stage": "Personal Protection",
+      "name": "Disposable Respirator",
+      "sku": "506600",
+      "brand": "Finixa",
+      "price_eur": 21.0,
+      "qty_per_year_base1500": 18.75,
+      "cost_per_repair_eur": 0.2625,
+      "pct_of_total": 0.012012,
+      "active": true
+    },
+    {
+      "id": "PROD020",
+      "stage": "Personal Protection",
+      "name": "Black Nitrile Gloves",
+      "sku": "53600x",
+      "brand": "Colad",
+      "price_eur": 11.0,
+      "qty_per_year_base1500": 3000.0,
+      "cost_per_repair_eur": 0.3667,
+      "pct_of_total": 0.016779,
+      "active": true
+    },
+    {
+      "id": "PROD021",
+      "stage": "Polishing",
+      "name": "One Step Ready & Advanced Cut",
+      "sku": "8700/8600",
+      "brand": "Finixa",
+      "price_eur": 35.0,
+      "qty_per_year_base1500": 15.0,
+      "cost_per_repair_eur": 0.35,
+      "pct_of_total": 0.016016,
+      "active": true
+    },
+    {
+      "id": "PROD022",
+      "stage": "Polishing",
+      "name": "Clean Pads",
+      "sku": "88xx",
+      "brand": "Finixa",
+      "price_eur": 4.28,
+      "qty_per_year_base1500": 30.0,
+      "cost_per_repair_eur": 0.0856,
+      "pct_of_total": 0.003917,
+      "active": true
+    },
+    {
+      "id": "PROD023",
+      "stage": "Polishing",
+      "name": "Polishing Cloths",
+      "sku": "B12686579",
+      "brand": "Finixa",
+      "price_eur": 48.0,
+      "qty_per_year_base1500": 1500.0,
+      "cost_per_repair_eur": 0.1745,
+      "pct_of_total": 0.007987,
+      "active": true
+    }
+  ]
+}
