@@ -1040,7 +1040,7 @@ footer strong { color:rgba(255,255,255,.75); }
         <div class="snav-num">5</div><span>Export</span>
       </div>
     </div>
-    <span id="topbar-step-label" style="display:none"></span>
+    
   </div>
 </nav>
 
@@ -1427,17 +1427,7 @@ footer strong { color:rgba(255,255,255,.75); }
               <label class="form-label">Booth cycle time/repair <span class="form-unit">(hours)</span></label>
               <input class="form-input" type="number" id="average_booth_cycle_time_per_repair" placeholder="Default: 2.0" step="0.1">
             </div>
-            <div class="form-group">
-              <label class="form-label">
-                Your product usage/repair <span class="form-unit">(units)</span>
-                <span class="info">i<span class="tip">Units of your current product consumed per repair. Used to calculate your current material cost baseline.</span></span>
-              </label>
-              <input class="form-input" type="number" id="user_product_usage_per_repair" placeholder="e.g. 1.2" step="0.1">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Your product price/unit <span class="form-unit">(€)</span></label>
-              <input class="form-input" type="number" id="user_product_price_per_unit" placeholder="e.g. 18.00" step="0.01">
-            </div>
+
           </div>
 
         </div>
@@ -1718,26 +1708,47 @@ footer strong { color:rgba(255,255,255,.75); }
           </div>
         </div>
 
-        <!-- Additional Mode B fields -->
-        <div class="improv-row" id="improv-fields" style="display:none">
-          <div class="form-group">
-            <label class="form-label">
-              EMM tested improvement factor
-              <span class="info">i<span class="tip">How much faster each repair becomes using EMM products — based on R&D testing data. 1.2 = 20% faster. Pre-filled by your EMM sales rep. Used to calculate time savings on top of material cost savings.</span></span>
-            </label>
-            <input class="form-input" type="number" id="improvement_factor" placeholder="e.g. 1.2 — pre-filled by EMM rep" step="0.01">
-            <div class="form-hint">Based on EMM product R&amp;D testing · ask your rep for this value</div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">
-              EMM program cost / year <span class="form-unit">(€, annualised)</span>
-              <span class="info">i<span class="tip">Annual cost of the EMM product program or contract for this bodyshop. Pre-filled by your EMM sales rep based on the agreed product package. Used to calculate ROI and payback period.</span></span>
-            </label>
-            <input class="form-input" type="number" id="investment_cost" placeholder="e.g. 3000 — pre-filled by EMM rep" step="100">
-            <div class="form-hint">Fixed by EMM contract · set by your sales rep</div>
-          </div>
-          <div class="form-group" style="align-self:end">
-            <button class="btn btn-primary" style="width:100%" onclick="applyStageComparison()">Calculate Full ROI →</button>
+        <!-- Advanced EMM Rep Data — always visible -->
+        <div id="improv-fields" style="margin-top:20px;border-top:2px solid var(--border);padding-top:16px">
+          <button id="emm-adv-toggle" onclick="toggleEMMAdv()" style="background:none;border:none;cursor:pointer;font-family:'Source Sans 3',sans-serif;display:flex;align-items:center;gap:8px;padding:0;width:100%">
+            <span style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ppg-deep)">
+              <span id="emm-adv-arrow" style="font-size:10px;transition:transform .2s;display:inline-block">▶</span>
+              Advanced — EMM Rep Data
+              <span style="background:var(--ppg-light);color:var(--ppg);font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;border:1px solid var(--ppg);text-transform:uppercase;letter-spacing:.04em">Optional</span>
+            </span>
+            <span style="margin-left:auto;font-size:11px;color:var(--muted);font-weight:400">Fill in with your EMM sales rep to unlock full ROI</span>
+          </button>
+          <div id="emm-adv-section" style="display:none;margin-top:14px">
+            <div style="background:var(--ppg-pale);border:1px solid var(--border);border-radius:3px;padding:16px">
+              <div style="font-size:12px;color:var(--muted);margin-bottom:16px;line-height:1.6">These two values come from your EMM sales rep. Once filled in, the tool calculates full ROI — including labour time savings on top of the material cost savings above.</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <label style="font-size:12px;font-weight:700;color:var(--ppg-deep);display:flex;align-items:center;gap:6px">
+                    Improvement factor
+                    <span class="info">i<span class="tip">How much faster repairs become using EMM products overall. 1.2 = 20% faster. Example: a repair taking 5.5h today would take 5.5 ÷ 1.2 = 4.58h. Provided by your EMM rep based on product testing data.</span></span>
+                  </label>
+                  <input class="form-input" type="number" id="improvement_factor" placeholder="e.g. 1.2" step="0.01" min="1" oninput="checkEMMFields()">
+                  <div class="form-hint">1.2 = 20% faster · 1.3 = 30% faster · provided by EMM rep</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <label style="font-size:12px;font-weight:700;color:var(--ppg-deep);display:flex;align-items:center;gap:6px">
+                    EMM program cost / year <span style="font-size:11px;color:var(--muted);font-weight:400">(€, annualised)</span>
+                    <span class="info">i<span class="tip">Annual cost of the EMM product program for your bodyshop — set by your EMM sales rep. Must be annualised. Example: €9,000 one-time over 3 years = €3,000/year.</span></span>
+                  </label>
+                  <input class="form-input" type="number" id="investment_cost" placeholder="e.g. 3000" step="100" min="0" oninput="checkEMMFields()">
+                  <div class="form-hint">Annual cost only · set by your EMM sales rep</div>
+                </div>
+              </div>
+              <div id="emm-status" style="display:none;margin-top:14px;padding:10px 14px;border-radius:2px;font-size:12px;background:#f0fdf4;border:1px solid #86efac;color:#166534">
+                ✓ Both fields filled — <strong>click "Calculate Full ROI" to see full ROI calculation</strong>
+              </div>
+              <div id="emm-status-partial" style="display:none;margin-top:14px;padding:10px 14px;border-radius:2px;font-size:12px;background:#fff8e1;border:1px solid #fde68a;color:#92400e">
+                Fill in both fields to unlock full ROI — or leave blank to continue with material cost comparison only.
+              </div>
+              <div style="margin-top:14px">
+                <button class="btn btn-primary" style="width:100%" onclick="applyStageComparison()">Calculate Full ROI →</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="mode-b-calc-note" id="mode-b-note">
@@ -1902,8 +1913,8 @@ footer strong { color:rgba(255,255,255,.75); }
   <div class="step-banner">
     <div>
       <div class="step-badge">Step 5 of 5</div>
-      <div class="step-banner-title">Export Report</div>
-      <div class="step-banner-desc">Fill in your details to receive the full analysis report and save your results.</div>
+      <div class="step-banner-title">Download Your Report</div>
+      <div class="step-banner-desc">Fill in your details below, then click Download to get your full PDF report.</div>
     </div>
     <div class="step-progress">
       <div class="prog-dot done"></div>
@@ -1914,56 +1925,59 @@ footer strong { color:rgba(255,255,255,.75); }
     </div>
   </div>
   <div class="page-body">
+
+    <!-- Key findings bar -->
     <div id="export-findings" style="display:none;background:var(--ppg-deep);color:white;border-radius:3px;padding:18px 20px;margin-bottom:20px">
       <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">Key Findings</div>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px" id="export-findings-grid"></div>
     </div>
-    <div id="export-error" style="display:none"></div>
-    <div class="export-grid">
 
+    <div id="export-error" style="display:none"></div>
+
+    <div class="export-grid">
+      <!-- LEFT: form + download button -->
       <div style="display:flex;flex-direction:column;gap:16px">
         <div class="card">
           <div class="card-head">
-            <div class="card-head-icon">👤</div>
+            <div class="card-head-icon">📄</div>
             <div>
-              <div class="card-title">Contact Details</div>
-              <div class="card-desc">Required to generate and send your report</div>
+              <div class="card-title">Your Details</div>
+              <div class="card-desc">Optional — used to personalise the report header</div>
             </div>
           </div>
           <div class="card-body">
-            <!-- Primary: generate immediately -->
-            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:14px 16px;background:var(--ppg-pale);border-radius:3px;border:1px solid var(--border);margin-bottom:20px">
-              <div style="flex:1;min-width:180px">
-                <div style="font-size:13px;font-weight:700;color:var(--ppg-deep);margin-bottom:2px">Ready to export</div>
-                <div style="font-size:11px;color:var(--muted)">Opens in a new tab — use Print to save as PDF</div>
-              </div>
-              <button class="btn btn-primary" onclick="generateReport()" style="font-size:14px;padding:11px 24px">📄 Generate Full Report</button>
-              <button class="btn btn-ghost" onclick="downloadJSON()">↓ JSON</button>
-            </div>
-            <!-- Secondary: optional email capture -->
-            <div style="font-size:12px;font-weight:700;color:var(--ppg-deep);margin-bottom:10px;display:flex;align-items:center;gap:6px">
-              📧 Send report by email <span style="font-size:10px;font-weight:400;color:var(--muted)">(optional)</span>
-            </div>
             <div class="form-grid">
               <div class="form-group">
-                <label class="form-label">Contact name</label>
-                <input class="form-input" id="export-name" type="text" placeholder="Your name">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Email address</label>
-                <input class="form-input" id="export-email" type="email" placeholder="your@email.com">
+                <label class="form-label">Your name</label>
+                <input class="form-input" id="export-name" type="text" placeholder="e.g. Jan Peeters">
               </div>
               <div class="form-group">
                 <label class="form-label">Bodyshop name</label>
-                <input class="form-input" id="export-bodyshop" type="text" placeholder="Workshop name">
+                <input class="form-input" id="export-bodyshop" type="text" placeholder="e.g. Garage Peeters">
               </div>
               <div class="form-group">
                 <label class="form-label">Country</label>
-                <input class="form-input" id="export-country" type="text" placeholder="Belgium">
+                <input class="form-input" id="export-country" type="text" placeholder="e.g. Belgium">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email <span class="form-unit">(optional)</span></label>
+                <input class="form-input" id="export-email" type="email" placeholder="your@email.com">
               </div>
             </div>
-            <div style="margin-top:12px">
-              <button class="btn btn-secondary" onclick="submitReport()">📧 Send by Email</button>
+
+            <!-- PRIMARY ACTION -->
+            <div style="margin-top:20px;padding-top:16px;border-top:2px solid var(--border)">
+              <button class="btn btn-primary" onclick="generateReport()" style="width:100%;font-size:15px;padding:13px 24px;justify-content:center">
+                📄 Download PDF Report
+              </button>
+              <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px">
+                Opens in a new tab → use <strong>File → Print → Save as PDF</strong> to save
+              </div>
+            </div>
+
+            <!-- Secondary: JSON -->
+            <div style="margin-top:12px;text-align:center">
+              <button class="btn btn-ghost" onclick="downloadJSON()" style="font-size:11px">↓ Export raw data (JSON)</button>
             </div>
           </div>
         </div>
@@ -2127,8 +2141,7 @@ function goTo(step) {
   }
   currentStep = step;
   // Show step progress label
-  const lbl = document.getElementById('topbar-step-label');
-  if (lbl) { lbl.style.display = 'block'; lbl.textContent = `Step ${step+1} of 5`; }
+
   window.scrollTo(0,0);
 }
 
@@ -2139,8 +2152,7 @@ function showHero() {
     el.classList.remove('active','done');
   }
   document.getElementById('nav-0').classList.add('active');
-  const lbl = document.getElementById('topbar-step-label');
-  if (lbl) lbl.style.display = 'none';
+
   window.scrollTo(0,0);
 }
 
@@ -2206,8 +2218,7 @@ function buildPayload() {
     labour_cost_per_hour: getNum('labour_cost_per_hour') || 45,
   };
   ['working_days_per_year','average_preparation_time_per_repair',
-   'average_paint_time_per_repair','average_booth_cycle_time_per_repair',
-   'user_product_usage_per_repair','user_product_price_per_unit'].forEach(f => {
+   'average_paint_time_per_repair','average_booth_cycle_time_per_repair'].forEach(f => {
     const v = getNum(f); if (v !== undefined) payload[f] = v;
   });
   // Mode B fields
@@ -2725,14 +2736,13 @@ function updateStageComparison() {
   if (td) { td.textContent = anyFilled ? (totalDiff > 0 ? 'Save €' : totalDiff < 0 ? 'Costs €' : '—') + (totalDiff !== 0 ? Math.abs(totalDiff).toFixed(2) : '') : '—'; td.className = 'sct-diff ' + (totalDiff > 0 ? 'saving' : totalDiff < 0 ? 'loss' : 'neutral'); }
   if (ta) { ta.textContent = anyFilled ? (totalAnnual > 5 ? '+€' : totalAnnual < -5 ? '-€' : '—') + (Math.abs(totalAnnual) > 0 ? Math.abs(totalAnnual).toFixed(0) : '') : '—'; ta.className = 'sct-diff ' + (totalAnnual > 5 ? 'saving' : totalAnnual < -5 ? 'loss' : 'neutral'); }
 
-  // Savings bar + improv fields
+  // Savings bar
   const bar    = document.getElementById('savings-bar');
   const fields = document.getElementById('improv-fields');
   const note   = document.getElementById('mode-b-note');
   const breakdown = document.getElementById('mode-b-breakdown');
   if (anyFilled && bar) {
     bar.style.display = 'flex';
-    if (fields)    fields.style.display = 'grid';
     if (note)      note.style.display = 'none';
     if (breakdown) breakdown.style.display = 'block';
     document.getElementById('ssb-per-repair').textContent  = (totalDiff > 0 ? 'Save €' : totalDiff < 0 ? 'Costs €' : '€') + Math.abs(totalDiff).toFixed(2) + (totalDiff < 0 ? ' more/repair' : '/repair');
@@ -2740,7 +2750,6 @@ function updateStageComparison() {
     document.getElementById('ssb-stages').textContent       = stagesWithSaving + ' / ' + STAGE_EMM.length;
   } else {
     if (bar)       bar.style.display = 'none';
-    if (fields)    fields.style.display = 'none';
     if (note)      note.style.display = 'block';
     if (breakdown) breakdown.style.display = 'none';
   }
@@ -3013,6 +3022,18 @@ function renderStep5() {
 // ══════════════════════════════════════════════
 // EXPORT ACTIONS
 // ══════════════════════════════════════════════
+function generateAndDownloadPDF() {
+  // Fill in name/bodyshop from form if provided
+  const name     = document.getElementById('export-name')?.value || '—';
+  const bodyshop = document.getElementById('export-bodyshop')?.value || '—';
+  const country  = document.getElementById('export-country')?.value || '—';
+  // Temporarily set email field to empty string for generateReport compatibility
+  const emailEl = document.getElementById('export-email');
+  if (emailEl) emailEl.value = emailEl.value || '';
+  // Open the report in a new window — user prints to PDF
+  generateReport();
+}
+
 function submitReport() {
   const name  = document.getElementById('export-name').value;
   const email = document.getElementById('export-email').value;
@@ -3085,11 +3106,11 @@ function generateReport() {
     .page-break { page-break-before:always; }
   }
   .btn-print {
-    position:fixed; top:16px; right:16px; z-index:99;
+    display:flex; align-items:center; gap:6px;
     background:#0078A9; color:white; border:none;
     padding:10px 20px; border-radius:3px; font-size:13px;
     font-weight:700; cursor:pointer; font-family:inherit;
-    display:flex; align-items:center; gap:6px;
+    margin:16px 32px 0; width:fit-content;
   }
   .btn-print:hover { background:#005a82; }
 
@@ -3246,8 +3267,6 @@ function generateReport() {
 </head>
 <body>
 
-<button class="btn-print no-print" onclick="window.print()">🖨 Print / Save as PDF</button>
-
 <!-- HEADER -->
 <div class="report-header">
   <div class="header-brand">
@@ -3262,6 +3281,7 @@ function generateReport() {
   </div>
 </div>
 <div class="accent-bar"></div>
+<button class="btn-print no-print" onclick="window.print()">🖨 Print / Save as PDF</button>
 
 <!-- META STRIP -->
 <div class="meta-strip">
@@ -3605,6 +3625,29 @@ function renderCatalog() {
       </div>
     </div>`;
   }).join('');
+}
+
+function toggleEMMAdv() {
+  const section = document.getElementById('emm-adv-section');
+  const arrow   = document.getElementById('emm-adv-arrow');
+  const isOpen  = section.style.display !== 'none';
+  section.style.display = isOpen ? 'none' : 'block';
+  arrow.style.transform = isOpen ? '' : 'rotate(90deg)';
+}
+
+function checkEMMFields() {
+  const factor = document.getElementById('improvement_factor')?.value;
+  const cost   = document.getElementById('investment_cost')?.value;
+  const statusOk      = document.getElementById('emm-status');
+  const statusPartial = document.getElementById('emm-status-partial');
+  if (!statusOk || !statusPartial) return;
+  if (factor && cost) {
+    statusOk.style.display = 'block'; statusPartial.style.display = 'none';
+  } else if (factor || cost) {
+    statusOk.style.display = 'none'; statusPartial.style.display = 'block';
+  } else {
+    statusOk.style.display = 'none'; statusPartial.style.display = 'none';
+  }
 }
 
 // ══════════════════════════════════════════════
